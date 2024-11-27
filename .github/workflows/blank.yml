@@ -36,5 +36,19 @@ jobs:
      
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: send telegram message on push
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.ID }}
+          token: ${{ secrets.TOKEN }}
+          message: |
+            Переделывай
+      - name: Send Telegram message with media on push
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+         to: ${{ secrets.ID }}
+         token: ${{ secrets.TOKEN }}
+         message: "Красава"
+          
