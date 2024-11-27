@@ -1,16 +1,8 @@
 name: CI
-
-
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  
   workflow_dispatch:
-
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -21,20 +13,25 @@ jobs:
       - name: check code style
         run: npx prettier ./src/ --check
   build:
-    
     runs-on: ubuntu-latest
     needs: [ lint ]
-   
     steps:
-      
       - uses: actions/checkout@v4
-
-     
       - name: Run a one-line script
         run: echo Hello, world!
-
-     
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: send telegram message on push
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.ID }}
+          token: ${{ secrets.TOKEN }}
+          message: |
+            Переделывай
+      - name: Send Telegram message with media on push
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+         to: ${{ secrets.ID }}
+         token: ${{ secrets.TOKEN }}
+         message: "Красава"
+          
