@@ -14,7 +14,7 @@ jobs:
       - name: Check code style
         run: npx prettier ./src/ --check
       - name: Build Docker image
-        run: docker build -t ghcr.io/spp4tfv/2711/src:latest ./src
+        run: docker build -t ghcr.io/spp4tfv/2711/src:latest .
 
   build:
     runs-on: ubuntu-latest
